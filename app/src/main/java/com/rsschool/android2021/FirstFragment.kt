@@ -42,31 +42,24 @@ class FirstFragment : Fragment() {
         previousResult?.text = "Previous result: ${result.toString()}"
 
         generateButton?.setOnClickListener {
-            val toast: Toast = Toast.makeText(activity, "Write correct data", Toast.LENGTH_SHORT)
-             if(min?.text?.toString() != ""  &&  max?.text?.toString() != ""){
-                 val minValue : Int
-                 val maxValue : Int
-                try {
-                    minValue = min?.text?.toString()?.toInt() ?: 0
-                    maxValue = max?.text?.toString()?.toInt() ?: 0
+            val minValue: Int
+            val maxValue: Int
+            try {
+                minValue = min?.text?.toString()?.toInt() ?: 0
+                maxValue = max?.text?.toString()?.toInt() ?: 0
 
-                    if(minValue < maxValue){
-                        val mainActivity = activity as MainActivity
-                        mainActivity.openSecondFragment(minValue.toInt(), maxValue.toInt())
-                    } else throw NumberFormatException()
-
-                }
-                catch (e: Exception){
-                    toast.show()
-                }
-
+                if (minValue < maxValue) {
+                    val mainActivity = activity as MainActivity
+                    mainActivity.openSecondFragment(minValue, maxValue)
+                } else throw NumberFormatException()
+            } catch (e: Exception) {
+                Toast.makeText(activity, "Write correct data", Toast.LENGTH_SHORT).show()
             }
-             else  toast.show()
 
         }
     }
 
-    interface ListenerFirstFragment{
+    interface ListenerFirstFragment {
         fun openFirstFragment(previousNumber: Int)
     }
 

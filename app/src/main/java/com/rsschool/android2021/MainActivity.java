@@ -22,14 +22,25 @@ public class MainActivity extends AppCompatActivity implements ListenerSecondFra
     public void openFirstFragment(int previousNumber) {
         final Fragment firstFragment = FirstFragment.newInstance(previousNumber);
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, firstFragment).commit();
+        transaction.replace(R.id.container, firstFragment).addToBackStack(null).commit();
     }
 
     @Override
     public void openSecondFragment(int min, int max) {
         final Fragment secondFragment = SecondFragment.newInstance(min, max);
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, secondFragment).addToBackStack(FirstFragment.class.getName()).commit();
+        transaction.replace(R.id.container, secondFragment).addToBackStack(null).commit();
     }
 
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 1) {
+            super.onBackPressed();
+            finish();
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
+    }
 }
