@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import java.lang.Exception
+import java.lang.NumberFormatException
 import kotlin.random.Random
 
 class FirstFragment : Fragment() {
@@ -39,15 +42,26 @@ class FirstFragment : Fragment() {
         previousResult?.text = "Previous result: ${result.toString()}"
 
         generateButton?.setOnClickListener {
+            val toast: Toast = Toast.makeText(activity, "Write correct data", Toast.LENGTH_SHORT)
+             if(min?.text?.toString() != ""  &&  max?.text?.toString() != ""){
+                 val minValue : Int
+                 val maxValue : Int
+                try {
+                    minValue = min?.text?.toString()?.toInt() ?: 0
+                    maxValue = max?.text?.toString()?.toInt() ?: 0
 
-            val minValue = min?.text?.toString() ?: ""
-            val maxValue = max?.text?.toString() ?: ""
+                    if(minValue < maxValue){
+                        val mainActivity = activity as MainActivity
+                        mainActivity.openSecondFragment(minValue.toInt(), maxValue.toInt())
+                    } else throw NumberFormatException()
 
-             if(minValue != ""  &&  maxValue != "" &&
-                    minValue.toInt() < maxValue.toInt()){
-                val mainActivity = activity as MainActivity
-                mainActivity.openSecondFragment(minValue.toInt(), maxValue.toInt())
-            } else previousResult?.text = "Write correct data"
+                }
+                catch (e: Exception){
+                    toast.show()
+                }
+
+            }
+             else  toast.show()
 
         }
     }

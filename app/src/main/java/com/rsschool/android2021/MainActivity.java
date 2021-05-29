@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements ListenerSecondFra
     public void openSecondFragment(int min, int max) {
         final Fragment secondFragment = SecondFragment.newInstance(min, max);
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, secondFragment).commit();
+        transaction.replace(R.id.container, secondFragment).addToBackStack(FirstFragment.class.getName()).commit();
     }
 
 }
